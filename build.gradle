@@ -1,0 +1,59 @@
+plugins {
+    id 'java'
+}
+
+group 'net.altarise'
+
+version '1.0.0-SNAPSHOT'
+
+
+repositories {
+    maven {
+        url "https://gitlab.com/api/v4/groups/13022841/-/packages/maven"
+        name "GitLab"
+        credentials(HttpHeaderCredentials) {
+            name = 'Deploy-Token'
+            value = 'RbcJLFH_KvGNWAUAWtg-'
+        }
+        authentication {
+            header(HttpHeaderAuthentication)
+        }
+    }
+}
+
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+subprojects {
+    apply plugin: 'java'
+    tasks.withType(Jar) {
+        destinationDir = file("$rootDir/build/New_libs")
+    }
+}
+
+
+dependencies {
+    compileOnly 'net.altarise.api:altarise-api:1.0.1'
+    compileOnly 'net.altarise:altarise-spigot:1.8.8'
+    compileOnly 'net.altarise.api:bean-api:1.0.1'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+
+
+
+jar {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    from { 
+        configurations.runtimeClasspath.collect {
+            it.isDirectory() ? it : zipTree(it) 
+        }
+    } 
+}

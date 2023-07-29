@@ -1,0 +1,7 @@
+author: Baxymoz
+version: 1.0.0
+main: net.altarise.parkour.Parkour
+name: Parkour
+depend:
+  - AltariseCore
+commands:

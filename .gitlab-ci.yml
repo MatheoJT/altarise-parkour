@@ -1,0 +1,39 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  CONTAINER_IMAGE: ${CI_DOCKER_REGISTRY}/${CI_PROJECT_NAME}:latest
+  SPIGOT_IMAGE: ${CI_DOCKER_REGISTRY}/${CI_DOCKER_DEFAULT_SPIGOT_IMAGE}:latest
+
+build:
+  stage: build
+  image: gradle:7.1.1-jdk16
+  script:
+    - 'gradle --build-cache jar'    
+    - 'mv build/libs/*.jar .'
+    - 'ls'
+  artifacts:
+    name: "$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-build$CI_JOB_ID"
+    paths:
+      - '*.jar'
+  tags:
+    - k8s
+    - dev
+
+
+deploy:
+  stage: deploy
+  image: quay.io/containers/buildah:latest
+  script:
+    - echo -n $CI_DOCKER_PASSWORD | buildah login --tls-verify=false -u $CI_DOCKER_USERNAME --password-stdin $CI_DOCKER_REGISTRY
+    - buildah pull --tls-verify=false ${SPIGOT_IMAGE}
+    - buildah tag ${SPIGOT_IMAGE} core:latest
+    - buildah bud --tag ${CONTAINER_IMAGE} .
+    - buildah push --tls-verify=false ${CONTAINER_IMAGE}
+    - echo Image pushed $IMG
+  only:
+    - main
+  tags:
+    - k8s
+    - dev

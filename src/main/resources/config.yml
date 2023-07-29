@@ -1,0 +1,19 @@
+properties:
+  name: "1"
+  difficulty: "§cDifficile"
+  checkpoints-needed: true
+  void: 85
+  standable-clays:
+    - 6
+    - 14
+
+locations:
+  spawn: "world, 39, 117, 75.5, -90, 0"
+  start: "world, 45.5, 115, 75.5, -90, 0"
+  end: "world, 99, 132, 113"
+  checkpoints:
+    - "world, 104.5, 115, 86.5, 0, 0"
+    - "world, 135.5, 131, 109.5, 180, 0"
+    - "world, 130.5, 114, 70.5, -40, 0"
+    - "world, 112.5, 118, 50.5, -100, 0"
+    - "world, 114.5, 129, 71.5, 90, 0"
