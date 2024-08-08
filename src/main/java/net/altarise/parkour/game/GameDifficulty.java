@@ -4,7 +4,7 @@ import org.bukkit.ChatColor;
 
 public enum GameDifficulty {
 
-    EASY("§aFacile", ChatColor.GREEN, 0),
+    EASY("", ChatColor.GREEN, 0),
     MEDIUM("§6Normal", ChatColor.GOLD, 1),
     HARD("§cDifficile", ChatColor.RED, 2),
     DEFAULT("§fAucun", ChatColor.WHITE, 3);
@@ -23,6 +23,11 @@ public enum GameDifficulty {
     public String getDisplayName() {
         return displayName;
     }
+
+    // public String getDisplayName(Player player) {
+        //return (Translation(player)).get(id);
+    //}
+
 
     public int getId() {
         return id;
